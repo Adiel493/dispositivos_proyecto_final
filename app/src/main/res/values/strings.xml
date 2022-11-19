@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Achiever</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Calendario</string>
+    <string name="title_notifications">Tareas</string>
+    <string name="usr_field">Usuario</string>
+    <string name="pass_field">Contraseña</string>
+    <string name="login">Ingresar</string>
+    <string name="mn_cerrarsesion">Cerrar sesión</string>
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="next"><![CDATA[->]]></string>
+    <string name="sevenday">SAB</string>
+    <string name="sixday">VIE</string>
+    <string name="fiveday">JUE</string>
+    <string name="fourday">MIE</string>
+    <string name="threeday">MAR</string>
+    <string name="twoday">LUN</string>
+    <string name="oneday">DOM</string>
+    <string name="tasks">TAREAS</string>
+    <string name="new_task">Nueva Tarea</string>
+    <string name="save">GUARDAR</string>
+    <string name="vista_semanal">Vista Semanal</string>
+</resources>
