@@ -14,6 +14,18 @@
         android:theme="@style/Theme.Proyectofinal"
         tools:targetApi="31">
         <activity
+            android:name=".splash.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".todolist.TodoList"
+            android:exported="false" />
+        <activity
             android:name=".calendar.EventEditActivity"
             android:exported="false" />
         <activity
@@ -24,12 +36,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
     </application>
 
