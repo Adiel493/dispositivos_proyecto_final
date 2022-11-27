@@ -1,18 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_marginStart="20dp"
-        android:id="@+id/eventCellTV"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:text="Evento"/>
+        android:layout_height="wrap_content"
+        android:padding="15dp">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/eventTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:paddingStart="8dp"
+            tools:text="Entregar Proyecto Final de Dispostivos Moviles I" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

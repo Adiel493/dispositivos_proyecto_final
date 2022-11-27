@@ -26,9 +26,6 @@
             android:name=".todolist.TodoList"
             android:exported="false" />
         <activity
-            android:name=".calendar.EventEditActivity"
-            android:exported="false" />
-        <activity
             android:name=".calendar.WeekViewActivity"
             android:exported="false" />
         <activity
@@ -36,8 +33,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>

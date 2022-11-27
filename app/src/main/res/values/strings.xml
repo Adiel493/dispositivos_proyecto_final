@@ -20,4 +20,16 @@
     <string name="new_task">Nueva Tarea</string>
     <string name="save">GUARDAR</string>
     <string name="vista_semanal">Vista Semanal</string>
+    <string name="calendario">Calendario</string>
+    <string name="lista_de_tareas">Lista de Tareas</string>
+    <string name="nuevo_evento">Nuevo Evento</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.anahuac.proyectofinal.todolist;
+package com.anahuac.proyectofinal.calendar;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,9 +17,9 @@ import com.anahuac.proyectofinal.R;
 
 public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
-    private ToDoAdapter adapter;
+    private EventAdapter adapter;
 
-    public RecyclerItemTouchHelper(ToDoAdapter adapter) {
+    public RecyclerItemTouchHelper(EventAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
     }
@@ -35,8 +35,8 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         final int position = viewHolder.getAdapterPosition();
         if (direction == ItemTouchHelper.LEFT) {
             AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
-            builder.setTitle("Eliminar Tarea");
-            builder.setMessage("¿Estás seguro de que quieres eliminar la tarea?");
+            builder.setTitle("Eliminar Evento");
+            builder.setMessage("¿Estás seguro de que quieres eliminar el evento?");
             builder.setPositiveButton("Confirmar",
                     new DialogInterface.OnClickListener() {
                         @Override

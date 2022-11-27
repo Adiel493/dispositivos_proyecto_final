@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
-import com.anahuac.proyectofinal.MainActivity;
 import com.anahuac.proyectofinal.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -31,8 +30,6 @@ public class TodoList extends AppCompatActivity implements DialogCloseListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
-
-        Objects.requireNonNull(getSupportActionBar()).hide();
 
         db = new DatabaseHandler(this);
         db.openDatabase();
