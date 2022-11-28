@@ -10,9 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50sp"
+        android:layout_marginStart="15sp"
         android:layout_marginTop="50sp"
-        android:layout_marginEnd="50sp"
+        android:layout_marginEnd="15sp"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -87,27 +87,27 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/forgotPassword"
+                android:id="@+id/btn_forgot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="8dp"
-                android:text="Recuperar contraseña"
+                android:text="Restablecer contraseña"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_login"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
             <TextView
                 android:id="@+id/btn_signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="60dp"
                 android:text="@string/crear_cuenta"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/forgotPassword"
-                app:layout_constraintTop_toTopOf="@+id/forgotPassword" />
+                app:layout_constraintStart_toEndOf="@+id/btn_forgot"
+                app:layout_constraintTop_toTopOf="@+id/btn_forgot" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView

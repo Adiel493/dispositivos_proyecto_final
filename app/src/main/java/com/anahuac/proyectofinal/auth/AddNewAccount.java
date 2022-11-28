@@ -181,6 +181,7 @@ public class AddNewAccount extends BottomSheetDialogFragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
+                                                        user.sendEmailVerification();
                                                         dismiss();
                                                     }else{
                                                         error.setText("Error al crear usuario, vuelva a intentar más tarde.");
@@ -202,7 +203,7 @@ public class AddNewAccount extends BottomSheetDialogFragment {
     public void onDismiss(@NonNull DialogInterface dialog){
         Activity activity = getActivity();
         if(activity instanceof DialogCloseListener)
-            ((DialogCloseListener)activity).handleDialogClose(dialog);
+            ((DialogCloseListener)activity).handleDialogClose(dialog, 1);
     }
 
     @SuppressLint("UseRequireInsteadOfGet")

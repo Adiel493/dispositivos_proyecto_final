@@ -36,4 +36,5 @@
     <string name="nombre">Nombre</string>
     <string name="ingrese_sus_datos">Ingrese sus datos</string>
     <string name="create">CREATE</string>
+    <string name="reset">RESTABLECER</string>
 </resources>

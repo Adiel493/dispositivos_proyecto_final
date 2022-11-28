@@ -29,13 +29,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginActivity extends AppCompatActivity implements DialogCloseListener{
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private Button btn_login;
-    private TextView btn_signup;
+    private TextView btn_signup, btn_forgot;
     private EditText email, pass;
     private ImageView google_img;
     private GoogleSignInOptions gso;
@@ -52,6 +53,7 @@ public class LoginActivity extends AppCompatActivity implements DialogCloseListe
 
         btn_login = findViewById(R.id.btn_login);
         btn_signup = findViewById(R.id.btn_signup);
+        btn_forgot = findViewById(R.id.btn_forgot);
         email = findViewById(R.id.user);
         pass = findViewById(R.id.pass);
         google_img = findViewById(R.id.google);
@@ -109,6 +111,13 @@ public class LoginActivity extends AppCompatActivity implements DialogCloseListe
             }
         });
 
+        btn_forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResetPassword.newInstance().show(getSupportFragmentManager(), ResetPassword.TAG);
+            }
+        });
+
     }
 
     private void loginUser(String emailUser, String passUser) {
@@ -116,8 +125,12 @@ public class LoginActivity extends AppCompatActivity implements DialogCloseListe
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    finish();
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if(user.isEmailVerified()){
+                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    }else{
+                        Toast.makeText(LoginActivity.this, "Verifique su correo electrónico antes de iniciar sesión", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     Toast.makeText(LoginActivity.this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show();
                 }
@@ -158,7 +171,12 @@ public class LoginActivity extends AppCompatActivity implements DialogCloseListe
 
 
     @Override
-    public void handleDialogClose(DialogInterface dialog) {
-        Toast.makeText(this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
+    public void handleDialogClose(DialogInterface dialog, int code) {
+        if(code == 1){
+            Toast.makeText(this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
+        }else if(code == 2){
+            Toast.makeText(this, "Correo para restablecer contraseña enviado", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
