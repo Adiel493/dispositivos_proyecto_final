@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blue_200">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/logo_nav"
+            android:layout_width="230dp"
+            android:layout_height="30dp"
+            android:src="@drawable/logo_nombre" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/signout"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_baseline_exit_to_app_24"/>
+    </RelativeLayout>
+</RelativeLayout>

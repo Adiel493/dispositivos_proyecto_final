@@ -3,6 +3,7 @@ package com.anahuac.proyectofinal.calendar;
 import static com.anahuac.proyectofinal.calendar.CalendarUtils.daysInWeekArray;
 import static com.anahuac.proyectofinal.calendar.CalendarUtils.monthYearFromDate;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,12 +12,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.anahuac.proyectofinal.HomeActivity;
 import com.anahuac.proyectofinal.R;
+import com.anahuac.proyectofinal.auth.LoginActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
@@ -33,6 +43,9 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     private CalendarAdapter calendarAdapter;
     private List<EventModel> eventList;
     private EventAdapter eventAdapter;
+    private GoogleSignInOptions gso;
+    private GoogleSignInClient gsc;
+    private ImageView signOut, logo;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -40,6 +53,31 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week_view);
+        getSupportActionBar().hide();
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        gsc = GoogleSignIn.getClient(this, gso);
+        signOut = findViewById(R.id.signout);
+        logo = findViewById(R.id.logo_nav);
+
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+            }
+        });
+
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            }
+        });
+
         db = new DatabaseHandler(this);
         db.openDatabase();
         initWidgets();
@@ -127,5 +165,16 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         Collections.reverse(eventList);
         eventAdapter.setEvents(eventList);
         eventAdapter.notifyDataSetChanged();
+    }
+
+    public void signOut() {
+        gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                finish();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
+
+        });
     }
 }
