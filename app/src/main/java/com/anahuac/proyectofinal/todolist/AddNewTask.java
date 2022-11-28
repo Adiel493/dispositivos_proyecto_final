@@ -19,7 +19,13 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.anahuac.proyectofinal.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -28,6 +34,10 @@ public class AddNewTask extends BottomSheetDialogFragment {
     public static final String TAG = "ActionBottomDialog";
     private EditText newTaskText;
     private Button newTaskSaveButton;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private GoogleSignInOptions gso;
+    private GoogleSignInClient gsc;
 
     private DatabaseHandler db;
 
@@ -108,6 +118,19 @@ public class AddNewTask extends BottomSheetDialogFragment {
                     ToDoModel task = new ToDoModel();
                     task.setTask(text);
                     task.setStatus(0);
+                    mAuth = FirebaseAuth.getInstance();
+                    user = mAuth.getCurrentUser();
+                    gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestEmail()
+                            .build();
+
+                    gsc = GoogleSignIn.getClient(getActivity(), gso);
+                    GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
+                    if(account != null){
+                        task.setUser(account.getEmail());
+                    }else{
+                        task.setUser(user.getEmail());
+                    }
                     db.insertTask(task);
                 }
                 dismiss();

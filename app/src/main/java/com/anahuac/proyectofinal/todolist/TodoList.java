@@ -16,11 +16,14 @@ import com.anahuac.proyectofinal.HomeActivity;
 import com.anahuac.proyectofinal.R;
 import com.anahuac.proyectofinal.auth.LoginActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +37,8 @@ public class TodoList extends AppCompatActivity implements DialogCloseListener{
     private FloatingActionButton fab;
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
     private ImageView signOut, logo;
 
     private List<ToDoModel> taskList;
@@ -80,7 +85,16 @@ public class TodoList extends AppCompatActivity implements DialogCloseListener{
 
         fab = findViewById(R.id.fab);
 
-        taskList = db.getAllTasks();
+        String email;
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account != null){
+            email = account.getEmail();
+        }else{
+            email = user.getEmail();
+        }
+        taskList = db.getAllTasks(email);
         Collections.reverse(taskList);
 
         tasksAdapter.setTasks(taskList);
@@ -95,7 +109,16 @@ public class TodoList extends AppCompatActivity implements DialogCloseListener{
 
     @Override
     public void handleDialogClose(DialogInterface dialog){
-        taskList = db.getAllTasks();
+        String email;
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account != null){
+            email = account.getEmail();
+        }else{
+            email = user.getEmail();
+        }
+        taskList = db.getAllTasks(email);
         Collections.reverse(taskList);
         tasksAdapter.setTasks(taskList);
         tasksAdapter.notifyDataSetChanged();

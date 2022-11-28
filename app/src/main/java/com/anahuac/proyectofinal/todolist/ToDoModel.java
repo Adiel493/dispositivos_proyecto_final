@@ -2,7 +2,7 @@ package com.anahuac.proyectofinal.todolist;
 
 public class ToDoModel {
     private int id, status;
-    private String task;
+    private String task, user;
 
     public int getId() {
         return id;
@@ -27,4 +27,8 @@ public class ToDoModel {
     public void setTask(String task) {
         this.task = task;
     }
+
+    public String getUser(){return user;}
+
+    public void setUser(String user) {this.user = user;}
 }

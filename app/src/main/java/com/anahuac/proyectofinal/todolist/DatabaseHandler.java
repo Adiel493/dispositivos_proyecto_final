@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +17,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String ID = "id";
     private static final String TASK = "task";
     private static final String STATUS = "status";
+    private static final String USER = "user";
     private static final String CREATE_TODO_TABLE = "CREATE TABLE " + TODO_TABLE + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TASK + " TEXT, "
-            + STATUS + " INTEGER)";
+            + STATUS + " INTEGER, "+ USER + " TEXT)";
 
     private SQLiteDatabase db;
+    private MySQL mysql = new MySQL();
 
     public DatabaseHandler(Context context) {
         super(context, NAME, null, VERSION);
@@ -48,16 +49,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(TASK, task.getTask());
         cv.put(STATUS, 0);
+        cv.put(USER, task.getUser());
         db.insert(TODO_TABLE, null, cv);
+        mysql.insertTask(task);
     }
 
     @SuppressLint("Range")
-    public List<ToDoModel> getAllTasks(){
+    public List<ToDoModel> getAllTasks(String user){
         List<ToDoModel> taskList = new ArrayList<>();
         Cursor cur = null;
         db.beginTransaction();
         try{
-            cur = db.query(TODO_TABLE, null, null, null, null, null, null, null);
+            cur = db.rawQuery("SELECT * FROM "+ TODO_TABLE + " WHERE "+ USER + " = '" + user + "'", null);
             if(cur != null){
                 if(cur.moveToFirst()){
                     do{
@@ -65,6 +68,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         task.setId(cur.getInt(cur.getColumnIndex(ID)));
                         task.setTask(cur.getString(cur.getColumnIndex(TASK)));
                         task.setStatus(cur.getInt(cur.getColumnIndex(STATUS)));
+                        task.setUser(cur.getString(cur.getColumnIndex(USER)));
                         taskList.add(task);
                     }
                     while(cur.moveToNext());
@@ -83,15 +87,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(STATUS, status);
         db.update(TODO_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
+        mysql.updateStatus(id, status);
     }
 
     public void updateTask(int id, String task) {
         ContentValues cv = new ContentValues();
         cv.put(TASK, task);
         db.update(TODO_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
+        mysql.updateTask(id, task);
     }
 
     public void deleteTask(int id){
         db.delete(TODO_TABLE, ID + "= ?", new String[] {String.valueOf(id)});
+        mysql.deleteTask(id);
     }
 }
