@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.icu.util.Calendar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +19,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String EVENT = "event";
     private static final String DATE = "date";
     private static final String TIME = "time";
+    private static final String USER = "user";
     private static final String CREATE_CALENDAR_TABLE = "CREATE TABLE " + CALENDAR_TABLE + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DATE + " TEXT, "
-            + EVENT + " TEXT, " + TIME + " TEXT)";
+            + EVENT + " TEXT, " + TIME + " TEXT ," + USER + " TEXT)";
 
     private SQLiteDatabase db;
+    private MySQL mysql = new MySQL();
 
     public DatabaseHandler(Context context) {
         super(context, NAME, null, VERSION);
@@ -52,16 +53,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(EVENT, event.getEvent());
         cv.put(DATE, event.getDate());
         cv.put(TIME, event.getTime());
+        cv.put(USER, event.getUser());
         db.insert(CALENDAR_TABLE, null, cv);
+        mysql.insertEvent(event);
     }
 
     @SuppressLint("Range")
-    public List<EventModel> getAllEvents(String date){
+    public List<EventModel> getAllEvents(String date, String user){
         List<EventModel> eventList = new ArrayList<>();
         Cursor cur = null;
         db.beginTransaction();
         try{
-            cur = db.rawQuery("SELECT * FROM "+ CALENDAR_TABLE + " WHERE "+ DATE + " = '" + date + "'", null);
+            cur = db.rawQuery("SELECT * FROM "+ CALENDAR_TABLE + " WHERE "+ DATE + " = '" + date + "' AND "+ USER +" = '" + user + "'", null);
             if(cur != null){
                 if(cur.moveToFirst()){
                     do{
@@ -88,21 +91,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(TIME, time);
         db.update(CALENDAR_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
+        mysql.updateTime(id, time);
     }
 
     public void updateEvent(int id, String event) {
         ContentValues cv = new ContentValues();
         cv.put(EVENT, event);
         db.update(CALENDAR_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
-    }
-
-    public void updateDate(int id, String date) {
-        ContentValues cv = new ContentValues();
-        cv.put(DATE, date);
-        db.update(CALENDAR_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
+        mysql.updateEvent(id, event);
     }
 
     public void deleteEvent(int id){
         db.delete(CALENDAR_TABLE, ID + "= ?", new String[] {String.valueOf(id)});
+        mysql.deleteEvent(id);
     }
 }

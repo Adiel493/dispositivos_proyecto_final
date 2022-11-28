@@ -23,11 +23,14 @@ import com.anahuac.proyectofinal.HomeActivity;
 import com.anahuac.proyectofinal.R;
 import com.anahuac.proyectofinal.auth.LoginActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -46,6 +49,8 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
     private ImageView signOut, logo;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -150,7 +155,16 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         ItemTouchHelper itemTouchHelper = new
                 ItemTouchHelper(new RecyclerItemTouchHelper(eventAdapter));
         itemTouchHelper.attachToRecyclerView(eventRecyclerView);
-        eventList = db.getAllEvents(CalendarUtils.formattedDate(CalendarUtils.selectedDate));
+        String email;
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account != null){
+            email = account.getEmail();
+        }else{
+            email = user.getEmail();
+        }
+        eventList = db.getAllEvents(CalendarUtils.formattedDate(CalendarUtils.selectedDate), email);
         if(eventList != null){
             Collections.reverse(eventList);
             eventAdapter.setEvents(eventList);
@@ -161,7 +175,16 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void handleDialogClose(DialogInterface dialog) {
-        eventList =  db.getAllEvents(CalendarUtils.formattedDate(CalendarUtils.selectedDate));
+        String email;
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account != null){
+            email = account.getEmail();
+        }else{
+            email = user.getEmail();
+        }
+        eventList =  db.getAllEvents(CalendarUtils.formattedDate(CalendarUtils.selectedDate), email);
         Collections.reverse(eventList);
         eventAdapter.setEvents(eventList);
         eventAdapter.notifyDataSetChanged();

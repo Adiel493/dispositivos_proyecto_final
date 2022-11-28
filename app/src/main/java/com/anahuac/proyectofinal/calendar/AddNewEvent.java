@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,11 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
 import com.anahuac.proyectofinal.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.time.LocalTime;
 import java.util.Objects;
@@ -30,9 +35,12 @@ import java.util.Objects;
 public class AddNewEvent extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
-    private EditText newEventText;
+    private EditText newEventText, eventTimeTV;
     private Button newEventSaveButton;
-    private TextView eventDateTV, eventTimeTV;
+    private TextView eventDateTV;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private boolean timeIsValidated, textIsValidated;
 
     private com.anahuac.proyectofinal.calendar.DatabaseHandler db;
 
@@ -70,6 +78,8 @@ public class AddNewEvent extends BottomSheetDialogFragment {
         eventDateTV.setText("Fecha: " + CalendarUtils.formattedDate(CalendarUtils.selectedDate));
         eventTimeTV.setText("Hora: " + CalendarUtils.formattedTime(LocalTime.now()));
         boolean isUpdate = false;
+        timeIsValidated = false;
+        textIsValidated = false;
 
         final Bundle bundle = getArguments();
         if(bundle != null){
@@ -91,18 +101,24 @@ public class AddNewEvent extends BottomSheetDialogFragment {
         newEventText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if(s.toString().equals("")){
+                    textIsValidated = false;
+                }
+                else{
+                    textIsValidated = true;
+                }
+                updateBtnStatus();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.toString().equals("")){
-                    newEventSaveButton.setEnabled(false);
-                    newEventSaveButton.setTextColor(Color.GRAY);
+                    textIsValidated = false;
                 }
                 else{
-                    newEventSaveButton.setEnabled(true);
-                    newEventSaveButton.setTextColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.yellow_700));
+                    textIsValidated = true;
                 }
+                updateBtnStatus();
             }
 
             @Override
@@ -110,25 +126,49 @@ public class AddNewEvent extends BottomSheetDialogFragment {
             }
         });
 
+
         final boolean finalIsUpdate = isUpdate;
         newEventSaveButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 String text = newEventText.getText().toString();
+                String time = eventTimeTV.getText().toString();
                 if(finalIsUpdate){
                     db.updateEvent(bundle.getInt("id"), text);
+                    db.updateTime(bundle.getInt("id"), time);
                 }
                 else {
                     EventModel event = new EventModel();
-                    event.setTime(CalendarUtils.formattedTime(LocalTime.now()));
+                    event.setTime(time);
                     event.setDate(CalendarUtils.formattedDate(CalendarUtils.selectedDate));
                     event.setEvent(text);
+                    String email;
+                    mAuth = FirebaseAuth.getInstance();
+                    user = mAuth.getCurrentUser();
+                    GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
+                    if(account != null){
+                        email = account.getEmail();
+                    }else{
+                        email = user.getEmail();
+                    }
+                    event.setUser(email);
                     db.insertEvent(event);
                 }
                 dismiss();
             }
         });
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet")
+    private void updateBtnStatus() {
+        if(textIsValidated){
+            newEventSaveButton.setEnabled(true);
+            newEventSaveButton.setTextColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.yellow_700));
+        }else{
+            newEventSaveButton.setEnabled(false);
+            newEventSaveButton.setTextColor(Color.GRAY);
+        }
     }
 
     @Override

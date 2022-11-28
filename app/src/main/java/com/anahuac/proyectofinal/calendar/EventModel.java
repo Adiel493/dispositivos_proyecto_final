@@ -1,6 +1,10 @@
 package com.anahuac.proyectofinal.calendar;
 
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +12,7 @@ import java.util.List;
 public class EventModel {
     private static DatabaseHandler db;
     private int id;
-    private String event, time, date;
+    private String event, time, date, user;
 
     public int getId() {
         return id;
@@ -24,6 +28,14 @@ public class EventModel {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getEvent() {
@@ -44,9 +56,11 @@ public class EventModel {
 
     public static ArrayList<EventModel> eventsList = new ArrayList<>();
 
-    public static List<EventModel> eventsForDate(LocalDate date)
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static List<EventModel> eventsForDate(LocalDate date, String user)
     {
-        List<EventModel> events = db.getAllEvents(date.toString());
+        String dateS = CalendarUtils.formattedDate(date);
+        List<EventModel> events = db.getAllEvents(dateS, user);
 
         return events;
     }
