@@ -6,28 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@null"
-        android:backgroundTint="@color/transparent"
-        android:minHeight="32dp"
-        android:onClick="openTodo"
-        android:shadowColor="@color/yellow_700"
-        android:text="@string/calendario"
-        android:textColor="@color/yellow_700"
-        android:textSize="20sp"
+        android:layout_weight="2"
+        android:text="¡Bienvenido Usuario!"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewCalendar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewCalendar"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:onClick="openCalendar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.346" />
+        app:layout_constraintVertical_bias="0.277"
+        app:srcCompat="@drawable/ic_baseline_calendar_today_24" />
 
     <Button
+        android:id="@+id/buttonCalendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -35,6 +43,26 @@
         android:backgroundTint="@color/transparent"
         android:minHeight="32dp"
         android:onClick="openCalendar"
+        android:shadowColor="@color/yellow_700"
+        android:text="@string/calendario"
+        android:textColor="@color/yellow_700"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewCalendar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="48dp"
+        android:background="@null"
+        android:backgroundTint="@color/transparent"
+        android:minHeight="32dp"
+        android:onClick="openTodo"
         android:shadowColor="@color/yellow_700"
         android:text="@string/lista_de_tareas"
         android:textColor="@color/yellow_700"
@@ -44,7 +72,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.195" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTodo"
+        app:layout_constraintVertical_bias="0.012" />
+
+    <ImageView
+        android:id="@+id/imageViewTodo"
+        android:layout_width="0dp"
+        android:onClick="openTodo"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCalendar"
+        app:layout_constraintVertical_bias="0.215"
+        app:srcCompat="@drawable/ic_baseline_playlist_add_check_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
