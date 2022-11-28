@@ -1,5 +1,6 @@
 package com.anahuac.proyectofinal.auth;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -30,7 +31,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements DialogCloseListener{
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private Button btn_login;
@@ -104,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, NewAccountActivity.class));
+                AddNewAccount.newInstance().show(getSupportFragmentManager(), AddNewAccount.TAG);
             }
         });
 
@@ -156,4 +157,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void handleDialogClose(DialogInterface dialog) {
+        Toast.makeText(this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
+    }
 }
