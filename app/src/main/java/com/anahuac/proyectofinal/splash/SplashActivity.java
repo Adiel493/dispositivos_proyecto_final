@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.anahuac.proyectofinal.MainActivity;
 import com.anahuac.proyectofinal.R;
+import com.anahuac.proyectofinal.auth.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        final Intent i = new Intent(SplashActivity.this, MainActivity.class);
+        final Intent i = new Intent(SplashActivity.this, LoginActivity.class);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

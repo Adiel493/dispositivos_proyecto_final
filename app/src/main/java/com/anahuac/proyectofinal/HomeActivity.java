@@ -9,7 +9,7 @@ import android.view.View;
 import com.anahuac.proyectofinal.calendar.CalendarActivity;
 import com.anahuac.proyectofinal.todolist.TodoList;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

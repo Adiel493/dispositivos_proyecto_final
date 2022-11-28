@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "265729514222",
+    "project_id": "achiever-fe7af",
+    "storage_bucket": "achiever-fe7af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265729514222:android:ddc8d23c10a95bf2fef1ff",
+        "android_client_info": {
+          "package_name": "com.anahuac.proyectofinal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265729514222-ne3ee0fhn72amg1ds8t7edatkevfoj9p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe0orXGuZYJsX8k4vR7LcD8wGn7C1w8f4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265729514222-ne3ee0fhn72amg1ds8t7edatkevfoj9p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
