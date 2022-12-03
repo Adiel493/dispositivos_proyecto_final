@@ -60,30 +60,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @SuppressLint("Range")
     public List<EventModel> getAllEvents(String date, String user){
-        List<EventModel> eventList = new ArrayList<>();
-        Cursor cur = null;
-        db.beginTransaction();
-        try{
-            cur = db.rawQuery("SELECT * FROM "+ CALENDAR_TABLE + " WHERE "+ DATE + " = '" + date + "' AND "+ USER +" = '" + user + "'", null);
-            if(cur != null){
-                if(cur.moveToFirst()){
-                    do{
-                        EventModel event = new EventModel();
-                        event.setId(cur.getInt(cur.getColumnIndex(ID)));
-                        event.setEvent(cur.getString(cur.getColumnIndex(EVENT)));
-                        event.setDate(cur.getString(cur.getColumnIndex(DATE)));
-                        event.setTime(cur.getString(cur.getColumnIndex(TIME)));
-                        eventList.add(event);
-                    }
-                    while(cur.moveToNext());
-                }
-            }
-        }
-        finally {
-            db.endTransaction();
-            assert cur != null;
-            cur.close();
-        }
+        List<EventModel> eventList;
+        eventList = mysql.getAllEvents(date, user);
         return eventList;
     }
 

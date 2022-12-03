@@ -3,10 +3,8 @@ package com.anahuac.proyectofinal.todolist;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -56,30 +54,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @SuppressLint("Range")
     public List<ToDoModel> getAllTasks(String user){
-        List<ToDoModel> taskList = new ArrayList<>();
-        Cursor cur = null;
-        db.beginTransaction();
-        try{
-            cur = db.rawQuery("SELECT * FROM "+ TODO_TABLE + " WHERE "+ USER + " = '" + user + "'", null);
-            if(cur != null){
-                if(cur.moveToFirst()){
-                    do{
-                        ToDoModel task = new ToDoModel();
-                        task.setId(cur.getInt(cur.getColumnIndex(ID)));
-                        task.setTask(cur.getString(cur.getColumnIndex(TASK)));
-                        task.setStatus(cur.getInt(cur.getColumnIndex(STATUS)));
-                        task.setUser(cur.getString(cur.getColumnIndex(USER)));
-                        taskList.add(task);
-                    }
-                    while(cur.moveToNext());
-                }
-            }
-        }
-        finally {
-            db.endTransaction();
-            assert cur != null;
-            cur.close();
-        }
+        List<ToDoModel> taskList;
+        taskList = mysql.getAllTasks(user);
         return taskList;
     }
 
